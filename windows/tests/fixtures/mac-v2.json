@@ -1,0 +1,41 @@
+{
+  "cards" : [
+    {
+      "showIntro" : true,
+      "image1" : "AQID",
+      "topic" : "",
+      "layout" : "Три фотографии с наложением",
+      "image2" : "BAUG",
+      "id" : "8501784C-4EBD-4517-BD32-434F755E1A69",
+      "imageMode1" : "Растянуть",
+      "photoEdit3" : {
+        "x" : 0,
+        "y" : 0,
+        "zoom" : 1
+      },
+      "intro" : "",
+      "imageMode3" : "Растянуть",
+      "photoEdit2" : {
+        "x" : 0,
+        "y" : 0,
+        "zoom" : 1
+      },
+      "headingSize" : 56,
+      "image3" : "BwgJ",
+      "photoArrangement" : "Рядом",
+      "topicSize" : 39,
+      "heading" : "",
+      "introSize" : 31,
+      "text" : "",
+      "textSize" : 42,
+      "imageMode2" : "Растянуть",
+      "photoEdit1" : {
+        "x" : 0.3,
+        "y" : -0.4,
+        "zoom" : 2.5
+      }
+    }
+  ],
+  "marginMM" : 5,
+  "version" : 2
+}
