@@ -1,0 +1,22 @@
+name: Release macOS Apple Silicon
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  release:
+    if: github.event.head_commit.message == 'Release macOS v1.6.0'
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build application
+        run: bash scripts/build-macos.sh
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          gh release create v1.6.0 build/CardMaker-macOS-AppleSilicon.zip
+          --target "$GITHUB_SHA"
+          --title "Карточки 1.6 — macOS Apple Silicon"
+          --notes "Альбомный A4: две карточки A5 на листе. Старые проекты с четырьмя карточками распределяются на два листа. Только macOS Apple Silicon; Windows не обновлялась."
