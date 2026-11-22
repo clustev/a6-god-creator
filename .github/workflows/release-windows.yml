@@ -1,0 +1,44 @@
+name: Release Windows x64
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  release:
+    if: github.event.head_commit.message == 'Release Windows v1.6.1'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.25.4'
+          cache: false
+      - name: Test editor
+        working-directory: windows
+        run: node test.js
+      - name: Build Windows x64
+        working-directory: windows
+        env:
+          GOOS: windows
+          GOARCH: amd64
+          CGO_ENABLED: '0'
+        run: |
+          mkdir -p ../build/windows
+          go build -trimpath -ldflags='-s -w' -o ../build/windows/CardMaker.exe .
+      - name: Package Windows and reuse Mac release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cp windows/README-RU.txt build/windows/README-RU.txt
+          (cd build/windows && zip -q ../CardMaker-Windows-x64.zip CardMaker.exe README-RU.txt)
+          gh release download v1.6.0 --pattern CardMaker-macOS-AppleSilicon.zip --dir build
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          gh release create v1.6.1
+          build/CardMaker-Windows-x64.zip build/CardMaker-macOS-AppleSilicon.zip
+          --target "$GITHUB_SHA"
+          --title "Карточки — Windows и macOS"
+          --notes "Windows: альбомный A4, две карточки A5 на листе и совместимость с проектами Mac. Mac: версия 1.6 без изменений. Windows-сборка не проверена запуском на Windows."
